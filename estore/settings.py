@@ -47,6 +47,7 @@ INSTALLED_APPS = [
 
 
     'django_countries',
+    'debug_toolbar',
 
     # Apps
     'estores',
@@ -66,6 +67,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'estore.urls'
@@ -73,7 +75,7 @@ ROOT_URLCONF = 'estore.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates'), os.path.join(BASE_DIR, 'templates', 'accounts')],
+        'DIRS': [os.path.join(BASE_DIR, 'templates'), os.path.join(BASE_DIR, 'templates', 'accounts'), os.path.join(BASE_DIR, 'fixtures'),],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -85,9 +87,14 @@ TEMPLATES = [
         },
     },
 ]
+FIXTURE_DIRS = (
+   os.path.join(BASE_DIR, 'fixtures'),
+)
 
 WSGI_APPLICATION = 'estore.wsgi.application'
-
+INTERNAL_IPS = [
+    '127.0.0.1'
+]
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases

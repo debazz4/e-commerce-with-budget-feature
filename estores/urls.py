@@ -16,7 +16,14 @@ from .views import (HomeView,
                     signup, loginPage, 
                     logoutUser, remove_single_item_from_cart,
                     add_single_item_to_cart,
-
+                    searchitem,
+                    get_filtered_products,
+                    add_to_wishlist,
+                    wishList,
+                    remove_from_wishlist,
+                    productDetail,
+                    save_review,
+                    customerBudget
                     )
 
 
@@ -30,7 +37,13 @@ urlpatterns = [
 
     path('', HomeView.as_view(), name='home'),
     path('search/', SearchView.as_view(), name='search'),
-    path('product/<slug>/', ItemDetailView.as_view(), name='product'),
+    path('add-to-wishlist/<slug>/', add_to_wishlist, name='add-to-wishlist'),
+    path('remove-from-wishlist/<slug>/', remove_from_wishlist, name='remove-from-wishlist'),
+    path('wishlist/', wishList, name='wishlist'),
+    path('price-range/', get_filtered_products, name='price-range'),
+    path('products/<slug>/', ItemDetailView.as_view(), name='products'),
+    path('product/<slug>/', productDetail, name='product'),
+    path('save-review/<slug>/', save_review, name='save-review'),
     path('order-summary/', OrderSummaryView.as_view(), name='order-summary'),
     path('add-to-cart/<slug>/', add_to_cart, name='add-to-cart'),
     path('remove-from-cart/<slug>/', remove_from_cart, name='remove-from-cart'),
@@ -41,4 +54,5 @@ urlpatterns = [
     path('add-coupon/', AddCouponView.as_view(), name='add-coupon'),
     path('shipping-option/', Shipping_Option.as_view(), name='shipping-option'),
     path('dashboard/', Dashboard.as_view(), name='dashboard'),
+    path('budget-pass/', customerBudget, name='budget-pass'),
 ]

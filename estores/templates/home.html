@@ -9,6 +9,7 @@ Molla::Home
 <link rel="stylesheet" href="{% static 'css/plugins/jquery.countdown.css'%}">
 <link rel="stylesheet" href="{% static 'css/skins/skin-demo-4.css '%}">
 <link rel="stylesheet" href="{% static 'css/demos/demo-4.css'%}">
+<link rel="stylesheet" href="{% static 'css/styles.css'%}">
 {% endblock %}
 
 
@@ -21,13 +22,13 @@ Molla::Home
                         "dots": true,
                         "nav": false, 
                         "responsive": {
-                            "1200": {
+                            "5000": {
                                 "nav": true,
                                 "dots": false
                             }
                         }
                     }'>
-                    <div class="intro-slide" style="background-image: url('/static/images/demos/demo-4/slider/slide-1.png');">
+                    <div class="intro-slide carousel" style="background-image: url('/static/images/demos/demo-4/slider/slide-1.jpg');">
                         <div class="container intro-content">
                             <div class="row justify-content-end">
                                 <div class="col-auto col-sm-7 col-md-6 col-lg-5">
@@ -51,7 +52,7 @@ Molla::Home
                         </div><!-- End .intro-content -->
                     </div><!-- End .intro-slide -->
 
-                    <div class="intro-slide" style="background-image: url('/static/images/demos/demo-4/slider/slide-2.png');">
+                    <div class="intro-slide carousel" style="background-image: url('/static/images/demos/demo-4/slider/slide-2.jpg');">
                         <div class="container intro-content">
                             <div class="row justify-content-end">
                                 <div class="col-auto col-sm-7 col-md-6 col-lg-5">
@@ -105,18 +106,34 @@ Molla::Home
         				<div class="toolbox-right">
         					<div class="toolbox-sort">
         						<label for="sortby">Sort by:</label>
-        						<div class="select-custom">
-									<select name="sortby" id="sortby" class="form-control">
-										<option value="popularity" selected="selected">Most Popular</option>
-										<option value="rating">Most Rated</option>
-										<option value="date">Date</option>
-									</select>
-								</div>
+                                <!--<div class="select-custom">
+                                    <form id="sort-form">
+                                        <select name="sort_by" id="sort-by" class="form-control">
+                                            <option value="price_asc">Price Ascending</option>
+                                            <option value="price_desc">Price Descending</option>
+                                            <option value="discount_asc">Discount Ascending</option>
+                                            <option value="discount_desc">Discount Descending</option>
+                                        </select>
+                                    </form>
+                                </div>-->
+                                
+        						<div class="header-dropdown">
+                                    <a href="#"></a>
+                                    <div class="header-menu">
+                                        <ul>
+                                            <li><a href="?sort_by=price_asc">Price Ascending</a></li>
+                                            <li><a href="?sort_by=price_desc">Price Decending</a></li>
+                                            <li><a href="?sort_by=discount_asc">Discount Ascending</a></li>
+                                            <li><a href="?sort_by=discount_desc">Discount Ascending</a></li>
+                                            
+                                        </ul>
+                                    </div><!-- End .header-menu -->
+                                </div><!-- End .header-dropdown -->
         					</div><!-- End .toolbox-sort -->
         				</div><!-- End .toolbox-right -->
         			</div><!-- End .toolbox -->
 
-                    <div class="products">
+                    <div class="products" id="productList">
                         <div class="row">
                             {% for item in object_list %}
                             <div class="col-6 col-md-4 col-lg-4 col-xl-3">
@@ -127,11 +144,11 @@ Molla::Home
                                         </a>
 
                                         <div class="product-action-vertical">
-                                            <a href="#" class="btn-product-icon btn-wishlist btn-expandable"><span>add to wishlist</span></a>
+                                            <a href="{% url 'estores:add-to-wishlist' item.slug %}" class="btn-product-icon btn-wishlist btn-expandable"><span>add to wishlist</span></a>
                                         </div><!-- End .product-action -->
 
                                         <div class="product-action action-icon-top">
-                                            <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
+                                            <a href="{{ item.get_add_to_cart }}" class="btn-product btn-cart"><span>add to cart</span></a>
                                             <a href="popup/quickView.html" class="btn-product btn-quickview" title="Quick view"><span>quick view</span></a>
                                             <a href="#" class="btn-product btn-compare" title="Compare"><span>compare</span></a>
                                         </div><!-- End .product-action -->
@@ -142,10 +159,10 @@ Molla::Home
                                             <a href="#">{{ item.get_category_display }}</a>
                                         </div><!-- End .product-cat -->
                                         <h3 class="product-title"><a href="{{ item.get_absolute_url }}">{{ item.title }}</a></h3><!-- End .product-title -->
-                                        <div class="product-price">$
+                                        <div class="product-price"> <span>&#8358 </span>
                                             {% if item.discount_price %}
                                                 {{ item.discount_price }}
-                                                <pre> </pre><del>${{ item.price }}</del>
+                                                <pre> </pre><del> <span>&#8358 </span>{{ item.price }}</del>
                                             {% else %}
                                                 {{ item.price }}
                                             {% endif %}
@@ -163,7 +180,26 @@ Molla::Home
                         </div><!-- End .row -->
 
                         <div class="load-more-container text-center">
-                            <a href="#" class="btn btn-outline-darker btn-load-more">More Products <i class="icon-refresh"></i></a>
+                            <!--<a href="#" class="btn btn-outline-darker btn-load-more">More Products <i class="icon-refresh"></i></a>-->
+                            <div class="pagination">
+                                <span class="step-links">
+                                    {% if page_obj.has_previous %}
+                                        <a href="?page=1">&laquo; first</a>
+                                        <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+                                    {% endif %}
+                            
+                                    <span class="current">
+                                        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                                    </span>
+                            
+                                    {% if page_obj.has_next %}
+                                        <a href="?page={{ page_obj.next_page_number }}">next</a>
+                                        <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                                    {% endif %}
+                                </span>
+                            </div>
+
+
                         </div><!-- End .load-more-container -->
                     </div><!-- End .products -->
 
@@ -184,69 +220,22 @@ Molla::Home
                                 <div class="collapse show" id="widget-1">
                                     <div class="widget-body">
                                         <div class="filter-items filter-items-count">
+                                            
+                                            {% for choice in categories %}
                                             <div class="filter-item">
                                                 <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input" id="cat-1">
-                                                    <label class="custom-control-label" for="cat-1">Dresses</label>
+                                                    <input type="checkbox" id="{{ choice.1 }}" name="category" value="{{ choice.0 }}" class="custom-control-input">
+                                                    <label class="custom-control-label" for="{{ choice.1 }}">{{ choice.1 }}</label>
                                                 </div><!-- End .custom-checkbox -->
-                                                <span class="item-count">3</span>
+                                                <span class="item-count">
+                                                    {% for category_count in category_counts %}
+                                                    {% if choice.0 == category_count.category %}
+                                                    {{ category_count.count }}
+                                                    {% endif %}
+                                                    {% endfor %}
+                                                </span>
                                             </div><!-- End .filter-item -->
-
-                                            <div class="filter-item">
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input" id="cat-2">
-                                                    <label class="custom-control-label" for="cat-2">T-shirts</label>
-                                                </div><!-- End .custom-checkbox -->
-                                                <span class="item-count">0</span>
-                                            </div><!-- End .filter-item -->
-
-                                            <div class="filter-item">
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input" id="cat-3">
-                                                    <label class="custom-control-label" for="cat-3">Bags</label>
-                                                </div><!-- End .custom-checkbox -->
-                                                <span class="item-count">4</span>
-                                            </div><!-- End .filter-item -->
-
-                                            <div class="filter-item">
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input" id="cat-4">
-                                                    <label class="custom-control-label" for="cat-4">Jackets</label>
-                                                </div><!-- End .custom-checkbox -->
-                                                <span class="item-count">2</span>
-                                            </div><!-- End .filter-item -->
-
-                                            <div class="filter-item">
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input" id="cat-5">
-                                                    <label class="custom-control-label" for="cat-5">Shoes</label>
-                                                </div><!-- End .custom-checkbox -->
-                                                <span class="item-count">2</span>
-                                            </div><!-- End .filter-item -->
-
-                                            <div class="filter-item">
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input" id="cat-6">
-                                                    <label class="custom-control-label" for="cat-6">Jumpers</label>
-                                                </div><!-- End .custom-checkbox -->
-                                                <span class="item-count">1</span>
-                                            </div><!-- End .filter-item -->
-
-                                            <div class="filter-item">
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input" id="cat-7">
-                                                    <label class="custom-control-label" for="cat-7">Jeans</label>
-                                                </div><!-- End .custom-checkbox -->
-                                                <span class="item-count">1</span>
-                                            </div><!-- End .filter-item -->
-
-                                            <div class="filter-item">
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input" id="cat-8">
-                                                    <label class="custom-control-label" for="cat-8">Sportwear</label>
-                                                </div><!-- End .custom-checkbox -->
-                                                <span class="item-count">0</span>
-                                            </div><!-- End .filter-item -->
+                                            {% endfor%}
                                         </div><!-- End .filter-items -->
                                     </div><!-- End .widget-body -->
                                 </div><!-- End .collapse -->
@@ -409,12 +398,83 @@ Molla::Home
                                                 Price Range:
                                                 <span id="filter-price-range"></span>
                                             </div><!-- End .filter-price-text -->
-
-                                            <div id="price-slider"></div><!-- End #price-slider -->
+                                            <div class="pricerangers">
+                                                <div class="wrappers">
+                                                  <div class="price-inputs">
+                                                    <div class="fields">
+                                                      <span></span>
+                                                      <input type="number" class="input-mins" value="2500">
+                                                    </div>
+                                                    <div class="separators">-</div>
+                                                    <div class="fields">
+                                                      <span></span>
+                                                      <input type="number" class="input-maxs" value="7500">
+                                                    </div>
+                                                  </div>
+                                                  <div class="sliders">
+                                                    <div class="progresss"></div>
+                                                  </div>
+                                                  <div class="range-inputs">
+                                                    <input type="range" class="range-mins" min="0" max="10000" value="2500" step="100">
+                                                    <input type="range" class="range-maxs" min="0" max="10000" value="7500" step="100">
+                                                  </div>
+                                                </div>
+                                                </div>
+                                            
+                                            <!--<div id="price-slider"></div><!-- End #price-slider -->
                                         </div><!-- End .filter-price -->
                                     </div><!-- End .widget-body -->
                                 </div><!-- End .collapse -->
                             </div><!-- End .widget -->
+
+
+
+
+                           <!--- <div class="widget widget-collapsible">
+                                <h3 class="widget-title">
+                                    <a data-toggle="collapse" href="#widget-5" role="button" aria-expanded="true" aria-controls="widget-5">
+                                        Price
+                                    </a>
+                                </h3><!-- End .widget-title --
+                            
+                                <div class="collapse show" id="widget-5">
+                                    <div class="widget-body">
+                                        <div class="filter-price">
+                                            <div class="filter-price-text">
+                                                Price Range:
+                                                <span id="filter-price-range"></span>
+                                            </div><!-- End .filter-price-text --
+                            
+                                            <div id="price-slider" class="noUi-target noUi-ltr noUi-horizontal">
+                                                <div class="noUi-base"><div class="noUi-connects">
+                                                    <div class="noUi-connect" style="transform: translate(0%, 0px) scale(1, 1);">
+                                                    </div>
+                                                </div>
+                                                <div class="noUi-origin" style="transform: translate(-100%, 0px); z-index: 5;">
+                                                        <div class="noUi-handle noUi-handle-lower" data-handle="0" tabindex="0" role="slider" aria-orientation="horizontal" aria-valuemin="0.0" aria-valuemax="800.0" aria-valuenow="0.0" aria-valuetext="$0">
+                                                            <div class="noUi-touch-area"></div><div class="noUi-tooltip">$0</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="noUi-origin" style="transform: translate(0%, 0px); z-index: 4;">
+                                                        <div class="noUi-handle noUi-handle-upper" data-handle="1" tabindex="0" role="slider" aria-orientation="horizontal" aria-valuemin="200.0" aria-valuemax="1000.0" aria-valuenow="1000.0" aria-valuetext="$1000">
+                                                            <div class="noUi-touch-area"></div><div class="noUi-tooltip">$1000</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div><!-- End #price-slider -->
+
+                                        
+
+
+                                            <!--<div>
+                                                <label for="price-slider">Price Range:</label>
+                                                <input type="range" id="price-slider" min="0" max="1000" step="1" value="0">
+                                                <span id="rangeValue">0</span>
+                                            </div>-->
+                                        </div><!-- End .filter-price -->
+                                    </div><!-- End .widget-body -->
+                                </div><!-- End .collapse -->
+                            </div>-->
                         </div><!-- End .sidebar-filter-wrapper -->
                     </aside><!-- End .sidebar-filter -->
                 </div><!-- End .container -->
@@ -424,4 +484,7 @@ Molla::Home
     
     
 {% endblock %}
+
+
+
 

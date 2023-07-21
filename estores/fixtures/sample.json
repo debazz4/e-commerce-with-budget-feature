@@ -1,0 +1,219 @@
+
+[
+    {"model": "estores.item", 
+    "pk": 4, "fields": {
+        "title": "Cold gownl", 
+        "price": 8000.0, 
+        "discount_price": 4900.0, 
+        "category": "JP", 
+        "label": "S", 
+        "slug": "cold-gownl80000", 
+        "description": "nice for cocktail party", 
+        "image": "product-5-1.jpg", 
+        "image1": "product-5-2.jpg", 
+        "image2": "product-2-1_By2tjeQ.jpg", 
+        "image3": "product-2-2_O6qyWpC.jpg"
+        }
+    },
+    {"model": "estores.item", 
+    "pk": 5, "fields": {
+        "title": "Cold gownk", 
+        "price": 8000.0, 
+        "discount_price": 4900.0, 
+        "category": "JP", 
+        "label": "S", 
+        "slug": "cold-gownk80000", 
+        "description": "nice for cocktail party", 
+        "image": "product-5-1.jpg", 
+        "image1": "product-5-2.jpg", 
+        "image2": "product-2-1_By2tjeQ.jpg", 
+        "image3": "product-2-2_O6qyWpC.jpg"
+        }
+    },
+
+    {"model": "estores.item", 
+    "pk": 6, "fields": {
+        "title": "Cold gownj", 
+        "price": 8000.0, 
+        "discount_price": 4900.0, 
+        "category": "JP", 
+        "label": "S", 
+        "slug": "cold-gownj80000", 
+        "description": "nice for cocktail party", 
+        "image": "product-5-1.jpg", 
+        "image1": "product-5-2.jpg", 
+        "image2": "product-2-1_By2tjeQ.jpg", 
+        "image3": "product-2-2_O6qyWpC.jpg"
+        }
+    },
+    
+    {"model": "estores.item", 
+    "pk": 8, "fields": {
+        "title": "Cold gowni", 
+        "price": 8000.0, 
+        "discount_price": 4900.0, 
+        "category": "JP", 
+        "label": "S", 
+        "slug": "cold-gowni80000", 
+        "description": "nice for cocktail party", 
+        "image": "product-5-1.jpg", 
+        "image1": "product-5-2.jpg", 
+        "image2": "product-2-1_By2tjeQ.jpg", 
+        "image3": "product-2-2_O6qyWpC.jpg"
+        }
+    },
+
+        
+        {"model": "estores.item", 
+    "pk": 9, "fields": {
+        "title": "Cold gownh", 
+        "price": 8000.0, 
+        "discount_price": 4900.0, 
+        "category": "JP", 
+        "label": "S", 
+        "slug": "cold-gownh80000", 
+        "description": "nice for cocktail party", 
+        "image": "product-5-1.jpg", 
+        "image1": "product-5-2.jpg", 
+        "image2": "product-2-1_By2tjeQ.jpg", 
+        "image3": "product-2-2_O6qyWpC.jpg"
+        }
+    },
+    {"model": "estores.item", 
+    "pk": 10, "fields": {
+        "title": "Cold gowng", 
+        "price": 8000.0, 
+        "discount_price": 4900.0, 
+        "category": "JP", 
+        "label": "S", 
+        "slug": "cold-gowng80000", 
+        "description": "nice for cocktail party", 
+        "image": "product-5-1.jpg", 
+        "image1": "product-5-2.jpg", 
+        "image2": "product-2-1_By2tjeQ.jpg", 
+        "image3": "product-2-2_O6qyWpC.jpg"
+        }
+    },
+    {"model": "estores.item", 
+    "pk": 11, "fields": {
+        "title": "Cold gownf", 
+        "price": 8000.0, 
+        "discount_price": 4900.0, 
+        "category": "JP", 
+        "label": "S", 
+        "slug": "cold-gownf80000", 
+        "description": "nice for cocktail party", 
+        "image": "product-5-1.jpg", 
+        "image1": "product-5-2.jpg", 
+        "image2": "product-2-1_By2tjeQ.jpg", 
+        "image3": "product-2-2_O6qyWpC.jpg"
+        }
+    },
+    {"model": "estores.item", 
+    "pk": 12, "fields": {
+        "title": "Cold gowne", 
+        "price": 8000.0, 
+        "discount_price": 4900.0, 
+        "category": "JP", 
+        "label": "S", 
+        "slug": "cold-gowne80000", 
+        "description": "nice for cocktail party", 
+        "image": "product-5-1.jpg", 
+        "image1": "product-5-2.jpg", 
+        "image2": "product-2-1_By2tjeQ.jpg", 
+        "image3": "product-2-2_O6qyWpC.jpg"
+        }
+    },
+    {"model": "estores.item", 
+    "pk": 13, "fields": {
+        "title": "Cold gownd", 
+        "price": 8000.0, 
+        "discount_price": 4900.0, 
+        "category": "JP", 
+        "label": "S", 
+        "slug": "cold-gownd80000", 
+        "description": "nice for cocktail party", 
+        "image": "product-5-1.jpg", 
+        "image1": "product-5-2.jpg", 
+        "image2": "product-2-1_By2tjeQ.jpg", 
+        "image3": "product-2-2_O6qyWpC.jpg"
+        }
+    },
+    {"model": "estores.item", 
+    "pk": 14, "fields": {
+        "title": "Cold gownc", 
+        "price": 8000.0, 
+        "discount_price": 4900.0, 
+        "category": "JP", 
+        "label": "S", 
+        "slug": "cold-gownc80000", 
+        "description": "nice for cocktail party", 
+        "image": "product-5-1.jpg", 
+        "image1": "product-5-2.jpg", 
+        "image2": "product-2-1_By2tjeQ.jpg", 
+        "image3": "product-2-2_O6qyWpC.jpg"
+        }
+    },
+    {"model": "estores.item", 
+    "pk": 15, "fields": {
+        "title": "Cold gownb", 
+        "price": 8000.0, 
+        "discount_price": 4900.0, 
+        "category": "JP", 
+        "label": "S", 
+        "slug": "cold-gownb80000", 
+        "description": "nice for cocktail party", 
+        "image": "product-5-1.jpg", 
+        "image1": "product-5-2.jpg", 
+        "image2": "product-2-1_By2tjeQ.jpg", 
+        "image3": "product-2-2_O6qyWpC.jpg"
+        }
+    },
+    {"model": "estores.item", 
+    "pk": 16, "fields": {
+        "title": "Cold gowna", 
+        "price": 8000.0, 
+        "discount_price": 4900.0, 
+        "category": "JP", 
+        "label": "S", 
+        "slug": "cold-gowna80000", 
+        "description": "nice for cocktail party", 
+        "image": "product-5-1.jpg", 
+        "image1": "product-5-2.jpg", 
+        "image2": "product-2-1_By2tjeQ.jpg", 
+        "image3": "product-2-2_O6qyWpC.jpg"
+        }
+    },
+    {"model": "estores.item", 
+    "pk": 17, "fields": {
+        "title": "Cold gownz", 
+        "price": 8000.0, 
+        "discount_price": 4900.0, 
+        "category": "JP", 
+        "label": "S", 
+        "slug": "cold-gownz80000", 
+        "description": "nice for cocktail party", 
+        "image": "product-5-1.jpg", 
+        "image1": "product-5-2.jpg", 
+        "image2": "product-2-1_By2tjeQ.jpg", 
+        "image3": "product-2-2_O6qyWpC.jpg"
+        }
+    },
+    {"model": "estores.item", 
+    "pk": 18, "fields": {
+        "title": "Cold gowns", 
+        "price": 8000.0, 
+        "discount_price": 4900.0, 
+        "category": "JP", 
+        "label": "S", 
+        "slug": "cold-gowns80000", 
+        "description": "nice for cocktail party", 
+        "image": "product-5-1.jpg", 
+        "image1": "product-5-2.jpg", 
+        "image2": "product-2-1_By2tjeQ.jpg", 
+        "image3": "product-2-2_O6qyWpC.jpg"
+        }
+    }
+]
+
+

@@ -9,217 +9,213 @@ Molla :: checkout
 {% block content %}
 
     <main class="main">
-        	<div class="page-header text-center" style="background-image: url('/static/images/page-header-bg.jpg')">
-        		<div class="container">
-        			<h1 class="page-title">Checkout<span>Shop</span></h1>
-        		</div><!-- End .container -->
-        	</div><!-- End .page-header -->
-            <nav aria-label="breadcrumb" class="breadcrumb-nav">
-                <div class="container">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                        <li class="breadcrumb-item"><a href="#">Shop</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Checkout</li>
-                    </ol>
-                </div><!-- End .container -->
-            </nav><!-- End .breadcrumb-nav -->
+      <div class="page-header text-center" style="background-image: url('/static/images/page-header-bg.jpg')">
+        <div class="container">
+        	<h1 class="page-title">Checkout<span>Shop</span></h1>
+        </div><!-- End .container -->
+      </div><!-- End .page-header -->
+      <nav aria-label="breadcrumb" class="breadcrumb-nav">
+        <div class="container">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'estores:home' %}">Home</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'estores:order-summary' %}">cart</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Checkout</li>
+          </ol>
+        </div><!-- End .container -->
+      </nav><!-- End .breadcrumb-nav -->
 
-            <div class="page-content">
-            	<div class="checkout">
-	                <div class="container">
-            			<div class="checkout-discount">
-            				<form action="#">
-        						<input type="text" class="form-control" required id="checkout-discount-input">
-            					<label for="checkout-discount-input" class="text-truncate">Have a coupon? <span>Click here to enter your code</span></label>
-            				</form>
-            			</div><!-- End .checkout-discount -->
-                        
-
-            			<form method="POST">
-                            {% csrf_token %}
-                            <div class="row">
-		                		<div class="col-lg-9">
-                                    <h2 class="checkout-title">Shipping Details</h2><!-- End .checkout-title -->
-                                    <div class="hideable_shipping_form">
-                                          <label for="country">Country</label>
-                                          {{ form.shipping_country }}
-                                          <div class="invalid-feedback">
-                                            Please select a valid country.
-                                          </div>
+      <div class="page-content">
+        <div class="checkout">
+	        <div class="container">
+            <form method="POST">
+              {% csrf_token %}
+              <div class="row">
+		            <div class="col-lg-9">
+                  <h2 class="checkout-title">Shipping Details</h2><!-- End .checkout-title -->
+                  <div class="hideable_shipping_form">
+                    <label for="country">Country</label>
+                    {{ form.shipping_country }}
+                    <div class="invalid-feedback">
+                      Please select a valid country.
+                    </div>
                                        
-                                        <label for="shipping_address" class="">Address</label>
-                                        <input type='text' placeholder='1234 Main St' id='shipping_address' name='shipping_address' class='form-control' />
-                                        
-                                        <label for="shipping_address2" class="">Address 2 (optional)</label>
-                                        <input type='text' placeholder='Apartment or suite' id='shipping_address2' name='shipping_address2' class='form-control' />
+                    <label for="shipping_address" class="">Address</label>
+                    <input type='text' placeholder='1234 Main St' id='shipping_address' name='shipping_address' class='form-control' />
+                    
+                    <label for="shipping_address2" class="">Address 2 (optional)</label>
+                    <input type='text' placeholder='Apartment or suite' id='shipping_address2' name='shipping_address2' class='form-control' />
 
-	            						<div class="row">
-                                            <div class="col-sm-6">
-		                						<label for="shipping_state">State</label>
-                                                <input type='text' placeholder='state' id='shipping_state' name='shipping_state' class='form-control' />
-		                					</div>
-		                					<div class="col-sm-6">
-		                						<label for="shipping_zip">Zip</label>
-                                                <input type='text' placeholder='Zip code' id='shipping_zip' name='shipping_zip' class='form-control' />
-                                                <div class="invalid-feedback">
-                                                  Zip code required.
-                                                </div>
-		                					</div><!-- End .col-sm-6 -->
-                                        
-		                					
-		                				</div><!-- End .row -->
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" name="same_billing_address" id="same_billing_address">
-                                                <label class="custom-control-label" for="same_billing_address">Billing address is the same as my shipping address</label>
-                                            </div>
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" name="set_default_shipping" id="set_default_shipping">
-                                                <label class="custom-control-label" for="set_default_shipping">Save as default shipping address</label>
-                                            </div>
-                                    </div>
-                                    {% if default_shipping_address %}
-                                        <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input" name="use_default_shipping" id="use_default_shipping">
-                                            <label class="custom-control-label" for="use_default_shipping">Use default shipping address: {{ default_shipping_address.street_address|truncatechars:10 }}</label>
-                                        </div>
-                                    {% endif %}
+	            			<div class="row">
+                      <div class="col-sm-6">
+		                		<label for="shipping_state">State</label>
+                        <input type='text' placeholder='state' id='shipping_state' name='shipping_state' class='form-control' />
+		                	</div>
+
+		                	<div class="col-sm-6">
+		                		<label for="shipping_zip">Zip</label>
+                        <input type='text' placeholder='Zip code' id='shipping_zip' name='shipping_zip' class='form-control' />
+                        <div class="invalid-feedback">
+                          Zip code required.
+                        </div>
+		                	</div><!-- End .col-sm-6 -->       
+		                </div><!-- End .row -->
+
+                    <div class="custom-control custom-checkbox">
+                      <input type="checkbox" class="custom-control-input" name="same_billing_address" id="same_billing_address">
+                      <label class="custom-control-label" for="same_billing_address">Billing address is the same as my shipping address</label>
+                    </div>
+                    <div class="custom-control custom-checkbox">
+                      <input type="checkbox" class="custom-control-input" name="set_default_shipping" id="set_default_shipping">
+                      <label class="custom-control-label" for="set_default_shipping">Save as default shipping address</label>
+                    </div>
+                  </div>
+                  {% if default_shipping_address %}
+                      <div class="custom-control custom-checkbox">
+                          <input type="checkbox" class="custom-control-input" name="use_default_shipping" id="use_default_shipping">
+                          <label class="custom-control-label" for="use_default_shipping">Use default shipping address: {{ default_shipping_address.street_address|truncatechars:10 }}</label>
+                      </div>
+                  {% endif %}
 
                                        
 
-		                			<h2 class="checkout-title">Billing Details</h2><!-- End .checkout-title -->
-                                    <div class="hideable_billing_form">
-                                          <label for="country">Country</label>
-                                          {{ form.billing_country }}
-                                          <div class="invalid-feedback">
-                                            Please select a valid country.
-                                          </div>
+		              <h2 class="checkout-title">Billing Details</h2><!-- End .checkout-title -->
+                  <div class="hideable_billing_form">
+                    <label for="country">Country</label>
+                    {{ form.billing_country }}
+                    <div class="invalid-feedback">
+                      Please select a valid country.
+                    </div>
                                        
-                                        <label for="billing_address" class="">Address</label>
-                                        <input type='text' placeholder='1234 Main St' id='billing_address' name='billing_address' class='form-control' />
+                    <label for="billing_address" class="">Address</label>
+                    <input type='text' placeholder='1234 Main St' id='billing_address' name='billing_address' class='form-control' />
                                         
-                                        <label for="billing_address2" class="">Address 2 (optional)</label>
-                                        <input type='text' placeholder='Apartment or suite' id='billing_address2' name='billing_address2' class='form-control' />
+                    <label for="billing_address2" class="">Address 2 (optional)</label>
+                    <input type='text' placeholder='Apartment or suite' id='billing_address2' name='billing_address2' class='form-control' />
 
-	            						<div class="row">
-                                            <div class="col-sm-6">
-		                						<label for="billing_state">State</label>
-                                                <input type='text' placeholder='state' id='billing_state' name='billing_state' class='form-control' />
-		                					</div>
-		                					<div class="col-sm-6">
-		                						<label for="billing_zip">Zip</label>
-                                                <input type='text' placeholder='Zip code' id='billing_zip' name='billing_zip' class='form-control' />
-                                                <div class="invalid-feedback">
-                                                  Zip code required.
-                                                </div>
-		                					</div><!-- End .col-sm-6 -->
+	            			<div class="row">
+                      <div class="col-sm-6">
+                        <label for="billing_state">State</label>
+                        <input type='text' placeholder='state' id='billing_state' name='billing_state' class='form-control' />
+		                	</div>
+		                	<div class="col-sm-6">
+                        <label for="billing_zip">Zip</label>
+                        <input type='text' placeholder='Zip code' id='billing_zip' name='billing_zip' class='form-control' />
+                        <div class="invalid-feedback">
+                            Zip code required.
+                        </div>
+		                	</div><!-- End .col-sm-6 -->			
+		                </div><!-- End .row -->
 
-		                					
-		                				</div><!-- End .row -->
+                    <div class="custom-control custom-checkbox">
+                      <input type="checkbox" class="custom-control-input" name="set_default_billing" id="set_default_billing"> 
+                      <label class="custom-control-label" for="set_default_billing">Save as default billing address</label>
+                    </div>
+                  </div>
+                  {% if default_billing_address %}
+                  <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" name="use_default_billing" id="use_default_billing">
+                    <label class="custom-control-label" for="use_default_billing">Use default billing address: {{ default_billing_address.street_address|truncatechars:10 }}</label>
+                  </div>
+                  {% endif %}
+                  <hr>
+	                <label>Order notes (optional)</label>
+	        				<textarea class="form-control" cols="30" rows="4" placeholder="Notes about your order, e.g. special notes for delivery"></textarea>
+		        		</div><!-- End .col-lg-9 -->
+		            
+                <aside class="col-lg-3">
+                  <div class="summary">
+		                <h3 class="summary-title">Your Order</h3><!-- End .summary-title -->
+		                <table class="table table-summary">
+		                	<thead>     
+		                		<tr>
+		                			<th>Product</th>
+		                			<th>Total</th>
+		                		</tr>
+		                	</thead>
+		                		<tbody>
+                          {% for order_item in order.items.all %}
+                            <tr>
+                              <td><a href="#">{{ order_item.item.title }}</a></td>
+                              <td>{{ order_item.item.price }}</td>
+                            </tr>
+                          {% endfor %}
 
-                                        <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input" name="set_default_billing" id="set_default_billing">
-                                            <label class="custom-control-label" for="set_default_billing">Save as default billing address</label>
-                                          </div>
-                                    </div>
-                                    {% if default_billing_address %}
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" name="use_default_billing" id="use_default_billing">
-                                        <label class="custom-control-label" for="use_default_billing">Use default billing address: {{ default_billing_address.street_address|truncatechars:10 }}</label>
-                                      </div>
-                                      {% endif %}
-                                      <hr>
+		                			<tr class="summary-subtotal">
+		                				<td>Subtotal:</td>
+		                				<td><span>&#8358 </span>{{ order.get_total }}</td>
+		                			</tr><!-- End .summary-subtotal -->
 
-                                       <!--<div class="custom-control custom-checkbox">
-											<input {% if form.same_shipping_address.value %}checked{% endif %} type="checkbox" name="same_billing_address" class="custom-control-input" id="same-address">
-											<label class="custom-control-label" for="same-address">Same shipping address</label>
-										</div><!-- End .custom-checkbox
+		                			<tr>
+                            <tr class="summary-subtotal">
+                            <td>Amount saved:</td>
+                            <td><span>&#8358 </span>{{ order.get_total_amount_saved }}</td>
+                          </tr><!-- End .summary-subtotal -->
 
-	        							<div class="custom-control custom-checkbox">
-											<input {% if form.save_info.value %}checked{% endif %} name="save_info" type="checkbox" class="custom-control-input" id="save_info">
-											<label class="custom-control-label" for="save_info">Save this information for next time</label>
-										</div><!-- End .custom-checkbox -->
+                          <tr class="summary-shipping-row">
+                            <td>
+                              <p>Shipping Mode</p>
+                            </td>
+                          </tr>
+                          
+                          <tr class="summary-shipping-row">
+                            <td>
+                              <p>Standard shipping - </p>
+                            </td>
+                            <td>
+                              <span>&#8358 </span>750.00</p>
+                            </td>
+                          </tr>
+                          <tr class="summary-shipping-row">
+                            <td>
+                              <p>Express shipping - </p>
+                            </td>
+                            <td>
+                              <span>&#8358 </span>1500.00</p>
+                            </td>
+                          </tr>
+                          
+                          {% for value, name in form.fields.shipping_option.choices %}
+                          <tr class="summary-shipping-row">
+                            <td>
+                              <div class="custom-control custom-radio">
+                                <input type="radio" id="{{ name }}" name="shipping_option" value="{{ value }}" class="custom-control-input">
+                                 <label class="custom-control-label" for="{{ name }}">{{ name }}:</label>
+                              </div><!-- End .custom-control -->
+                            </td>
+                            <td></td>
+                          </tr><!-- End .summary-shipping-row -->
+                          {% endfor %}
 
-										
+                          <tr class="summary-shipping-row">
+                            <td>
+                              Payment Method
+                            </td>
+                          </tr>
 
-	                					<label>Order notes (optional)</label>
-	        							<textarea class="form-control" cols="30" rows="4" placeholder="Notes about your order, e.g. special notes for delivery"></textarea>
-		                		</div><!-- End .col-lg-9 -->
-		                		<aside class="col-lg-3">
-		                			<div class="summary">
-		                				<h3 class="summary-title">Your Order</h3><!-- End .summary-title -->
-		                				<table class="table table-summary">
-		                					<thead>
-                                {% for order_item in order.items.all %}
-		                						<tr>
-		                							<th>Product</th>
-		                							<th>Total</th>
-		                						</tr>
-		                					</thead>
+                          {% for value, name in form.fields.payment_option.choices %}
+                          <tr class="summary-shipping-row">
+                            <td>
+                              <div class="custom-control custom-radio">
+                                <input type="radio" id="{{ name }}" name="payment_option" value="{{ value }}" class="custom-control-input">
+                                 <label class="custom-control-label" for="{{ name }}">{{ name }}:</label>
+                              </div><!-- End .custom-control -->
+                            </td>
+                            <td></td>
+                          </tr><!-- End .summary-shipping-row -->
+                          {% endfor %}
 
-		                					<tbody>
-		                						<tr>
-		                							<td><a href="#">{{ order_item.item.title }}</a></td>
-		                							<td>{{ order_item.item.price }}</td>
-		                						</tr>
-                                {% endfor %}
+		                			<tr class="summary-total">
+		                				<td>Total:</td>
+		                				<td><span>&#8358 </span>{{ order.get_total_coupon }}</td>
+		                			</tr><!-- End .summary-total -->
 
-		                						<tr class="summary-subtotal">
-		                							<td>Subtotal:</td>
-		                							<td><span>&#8358 </span>{{ order.get_total }}</td>
-		                						</tr><!-- End .summary-subtotal -->
-		                						<tr>
-                                <tr class="summary-subtotal">
-                                    <td>Amount saved:</td>
-                                    <td><span>&#8358 </span>{{ order.items.get_amount_saved }}</td>
-                                </tr><!-- End .summary-subtotal -->
-                                <tr class="summary-shipping-row">
-                                  <td>
-                                    <p>Standard and Express shipping</p>
-                                  </td>
-                                  <td>
-                                </tr>
-                                <tr class="summary-shipping-row">
-                                  <td>
-                                    <div class="custom-control custom-radio">
-                              <input type="radio" id="standart-shipping" name="shipping" class="custom-control-input">
-                              <label class="custom-control-label" for="standart-shipping">Standard:</label>
-                            </div><!-- End .custom-control -->
-                                  </td>
-                                  <td><span>&#8358 </span>500.00</td>
-                                </tr><!-- End .summary-shipping-row -->
-  
-                                <tr class="summary-shipping-row">
-                                  <td>
-                                    <div class="custom-control custom-radio">
-                              <input type="radio" id="express-shipping" name="shipping" class="custom-control-input">
-                              <label class="custom-control-label" for="express-shipping">Express:</label>
-                            </div><!-- End .custom-control -->
-                                  </td>
-                                  <td><span>&#8358 </span>750.00</td>
-                                </tr><!-- End .summary-shipping-row -->
-  
-                                
-		                						<tr class="summary-total">
-		                							<td>Total:</td>
-		                							<td><span>&#8358 </span>{{ order.get_total_coupon }}</td>
-		                						</tr><!-- End .summary-total -->
-		                					</tbody>
-		                				</table><!-- End .table table-summary -->
+                         
 
-		                				<div class="accordion-summary" id="accordion-payment">
-                                            
-                        {% for value, name in form.fields.payment_option.choices %}
-										    <div class="card">
-										        <div class="card-header" id="heading-4">
-										            <div class="card-title">
-                                  <input id="{{ name }}" type="radio" name="payment_option" value="{{ value }}" class="button" required>
-                                  <label for="{{ name }}">{{ name }}</label>
-										               
-										            </div>
-										        </div><!-- End .card-header -->
-										    </div><!-- End .card -->
-                        {% endfor %}
-										</div><!-- End .accordion -->
+		                		</tbody>
+		                </table><!-- End .table table-summary -->
+                    
+                  
+
 
 		                				<button type="submit" class="btn btn-outline-primary-2 btn-order btn-block">
 		                					<span class="btn-text">Place Order</span>
@@ -236,7 +232,7 @@ Molla :: checkout
 {% endblock %}
 
 
-{% block extra_scripts %}
+{% block script %}
 <script>
 var hideable_shipping_form = $('.hideable_shipping_form');
 var hideable_billing_form = $('.hideable_billing_form');
@@ -271,6 +267,6 @@ same_billing_address.addEventListener('change', function() {
 
 
 </script>
-{% endblock extra_scripts %}
+{% endblock script %}
 
 

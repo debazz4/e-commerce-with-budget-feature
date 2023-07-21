@@ -1,18 +1,30 @@
 from sre_constants import CATEGORY
 from statistics import mode, multimode
 from unicodedata import category
+from django.db.models.query import QuerySet
+from django.db.models.functions import Now
+from django.core.validators import MaxValueValidator, MinValueValidator
+
 
 from django.db.models.signals import post_save
 from django.conf import settings
 from django.db import models
+from django.db.models import Q, F
+from django.template.defaultfilters import slugify
 from django.shortcuts import reverse
 from django_countries.fields import CountryField
 
-
 CATEGORY_CHOICES = (
-    ('S', 'Shirt'),
-    ('SW', 'Sport wear'),
-    ('OW', 'Outwear'),
+    ('S', 'Shirts'),
+    ('SW', 'Sport wears'),
+    ('OW', 'Outwears'),
+    ('D', 'Dresses'),
+    ('T', 'T-shirts'),
+    ('J', 'Jackets'),
+    ('SH', 'Shoes'),
+    ('JP', 'Jumpers'),
+    ('JN', 'Jeans'),
+    ('C', 'Caps'),
 )
 
 LABEL_CHOICES = (
@@ -31,6 +43,15 @@ ADDRESS_CHOICES = (
     ('S', 'Shipping'),
 )
 
+RATING_CHOICES = (
+    ('20%', '1'),
+    ('40%', '2'),
+    ('60%', '3'),
+    ('80%', '4'),
+    ('100%', '5'),
+)
+
+
 
 class UserProfile(models.Model):
     user = models.OneToOneField(
@@ -46,12 +67,20 @@ class Item(models.Model):
     discount_price = models.FloatField(blank=True, null=True)
     category = models.CharField(choices=CATEGORY_CHOICES, max_length=2)
     label = models.CharField(choices=LABEL_CHOICES, max_length=1)
-    slug = models.SlugField()
+    slug = models.SlugField(editable=False)
     description = models.TextField()
     image = models.ImageField()
+    image1 = models.ImageField()
+    image2 = models.ImageField()
+    image3 = models.ImageField()
 
     def __str__(self):
         return self.title
+    
+    def save(self, *args, **kwargs):
+        to_slug = f"{self.title}{self.description}"
+        self.slug = slugify(to_slug)
+        super().save(*args, **kwargs)
  
     def get_absolute_url(self):
         return reverse("estores:product", kwargs={
@@ -67,6 +96,7 @@ class Item(models.Model):
          return reverse("estores:remove-from-cart", kwargs={
             'slug': self.slug
         })
+   
 
     
 
@@ -133,14 +163,25 @@ class Order(models.Model):
             total -= self.coupon.amount
         return total
 
+    def get_total_amount_saved(self):
+        saved_amount = 0
+        total = 0
+        for order_item in self.items.all():
+            total += order_item.get_amount_saved()
+            if self.coupon:
+                saved_amount = total + self.coupon.amount
+            else:
+                saved_amount = total
+        return saved_amount
     
-    def get_shipping_total(self):
+    def get_total_add_shipping(self):
         total = self.get_total_coupon()
-        if self.options =='S':
-            total += 500
-        elif self.options == 'E':
+        if self.options =='Standard':
             total += 750
-
+        elif self.options == 'Express':
+            total += 1500
+        return total
+    
 class Address(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              on_delete=models.CASCADE)
@@ -171,11 +212,35 @@ class Payment(models.Model):
 
 
 class Coupon(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     code = models.CharField(max_length=15)
     amount = models.FloatField()
+    valid_from = models.DateTimeField(null=True)
+    valid_to = models.DateTimeField(null=True)
+    max_value = models.IntegerField(validators=[MaxValueValidator(100)], verbose_name='Coupon Quantity', null=True) # No. of coupon
+    used = models.IntegerField(default=0)
+
+    class Meta:
+        constraints = [
+            models.CheckConstraint(check=Q(used__lte=F('max_value')), name="constrain-max-limit")
+        ]
 
     def __str__(self):
         return self.code
+    
+
+    
+class Budgets(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    budget_name = models.CharField(max_length=12)
+    amount = models.FloatField()
+    duration = models.CharField(max_length=3)
+    date_added = models.DateTimeField(auto_now_add=True)
+
+    
+    def __str__(self):
+        return self.budget_name
+    
 
 
 class Refund(models.Model):
@@ -194,3 +259,27 @@ def userprofile_receiver(sender, instance, created, *args, **kwargs):
 
 
 post_save.connect(userprofile_receiver, sender=settings.AUTH_USER_MODEL)
+
+
+
+
+class Wishlist(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    wished_item = models.ForeignKey(Item, on_delete=models.CASCADE)
+    slug = models.CharField(max_length=30, null=True, blank=True)
+    added_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.wished_item.title
+    
+
+  
+class ProductReview(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    product = models.ForeignKey(Item, on_delete=models.CASCADE)
+    review_text = models.TextField()
+    review_rating = models.CharField(max_length=10, choices=RATING_CHOICES)
+    date_added = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+
+    def get_review_rating(self):
+        return self.review_rating

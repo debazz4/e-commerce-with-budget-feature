@@ -3,52 +3,79 @@
 <!-- {% load crispy_forms_tags %} -->
 
 {% block head_title %}
-Molla :: checkout 
+Molla :: Payment 
 {% endblock %}
 
 {% block content %}
 
     <main class="main">
-        	
-            <nav aria-label="breadcrumb" class="breadcrumb-nav">
-                <div class="container">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="{% url 'estores:home' %}">Home</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Checkout</li>
-                    </ol>
-                </div><!-- End .container -->
-            </nav><!-- End .breadcrumb-nav -->
+      <nav aria-label="breadcrumb" class="breadcrumb-nav">
+        <div class="container">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'estores:home' %}">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Checkout</li>
+          </ol>
+        </div><!-- End .container -->
+      </nav><!-- End .breadcrumb-nav -->
 
-            <div class="page-content">
-            	<div class="checkout">
-	                <div class="container">
-                        
+      <div class="page-content">
+        <div class="checkout">
+	        <div class="container">
+            <div   class="contact-clean">
+              <h3 class="text-center text-dark">Make your payment</h3>
+              <div class="illustration"><i class="icon ion-ios-navigate"></i></div>
+                <div class="form-group"><span>&#8358 </span>{{ order.get_total_add_shipping }}</div>
+                <div class="form-group">{{ order.user.email  }}</div>
+                <div class="form-group">{{ order.user}}</div>
+                <p>Items:</p>
+                {% for item in order.items.all %}
+                <div class="form-group">{{ item.item.title }}</div>
+                {% endfor %}
+                {% if card %}
+                  <div style="padding: 5px 30px;">
+                    <div class="custom-control custom-checkbox">
+                      <input type="checkbox" class="custom-control-input" name="use_default_card" id="use_default_card">
+                      <label class="custom-control-label" for="use_default_card">Use default card:
+                        **** **** **** {{ card.last4 }} 
+                      <span>Exp: {{ card.exp_month }}/{{ card.exp_year }}</span></label>
+                    </div>
+                  </div>
 
-            			<div   class="contact-clean">
-                            <h3 class="text-center text-dark">Make your payment</h3>
-                                    <form action="" style="width:100%; max-width:100%;" method="post" id="payment-form">
-                                    {% csrf_token %}
-                                        <div class="illustration"><i class="icon ion-ios-navigate"></i></div>
-                                        <div class="form-group"><span>&#8358 </span>{{ order.get_total_coupon }}</div>
-                                        <div class="form-group">{{ order.user.email  }}</div>
-                                        <div class="form-group">{{ order.user}}</div>
-                                        
-                                        <div>
-                                        
-                                        <label for="card-elemenst">
-                                                  Credit or debit card
-                                                </label>
-                                                <div id="card-element">
-                                                  <!-- A Stripe Element will be inserted here. -->
-                                                </div>
-                            
-                                                <!-- Used to display form errors. -->
-                                                <div id="card-errors" role="alert"></div>
-                                        
-                                        </div>
-                                        
-                                        <div class="form-group"><button class="btn btn-primary btn-block" type="submit">submit</button></div></form>
+                  <div class="current-card-form">
+                    <form action="." method="post" class="stripe-form">
+                        {% csrf_token %}
+                        <input type="hidden" name="use_default" value="true">
+                        <div class="form-group">
+                          <button id="stripeBtn" class="btn btn-primary">Submit Payment</button>
+                        </div>
+                        <div id="card-errors" role="alert"></div>
+                    </form>
+                  </div>
+                {% endif %}
+
+                
+                            <div class="new-card-form">
+                              <form action="" style="width:100%; max-width:100%;" method="post" id="payment-form">
+                                {% csrf_token %}
+                                <div>
+                                  <label for="card-elemenst">
+                                    Credit or debit card
+                                  </label>
+                                  <div id="card-element">
+                                    <!-- A Stripe Element will be inserted here. -->
+                                  </div>
+                                  <!-- Used to display form errors. -->
+                                  <div id="card-errors" role="alert"></div>
                                 </div>
+                                <div class="custom-control custom-checkbox">
+                                  <input type="checkbox" class="custom-control-input" name="save" id="save_card_info">
+                                  <label class="custom-control-label" for="save_card_info">Save for future purchases</label>
+                                </div>
+                                        
+                                <div class="form-group"><button class="btn btn-primary" type="submit">Make payment</button></div>
+                                      
+                              </form>
+                            </div>
                                 
                             
                                 
@@ -129,6 +156,20 @@ Molla :: checkout
       // Submit the form
       form.submit();
     }
+
+  var currentCardForm = $('.current-card-form');
+  var newCardForm = $('.new-card-form');
+  var use_default_card = document.querySelector("input[name=use_default_card]");
+  use_default_card.addEventListener('change', function() {
+    if (this.checked) {
+      newCardForm.hide();
+      currentCardForm.show()
+    } else {
+      newCardForm.show();
+      currentCardForm.hide()
+    }
+  })
+
 </script>
 {% endblock %}
 

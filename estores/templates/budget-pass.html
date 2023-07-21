@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head_title %}
+Molla:: Budget-details
+{% endblock %}
+
+{% block extra_head %}
+
+{% endblock %}
+
+
+{% block content %}
+
+        <main class="main">
+        	<div class="page-header text-center" style="background-image: url('assets/images/page-header-bg.jpg')">
+        		<div class="container">
+        			<h1 class="page-title">My Budget</h1>
+        		</div><!-- End .container -->
+        	</div><!-- End .page-header -->
+            <nav aria-label="breadcrumb" class="breadcrumb-nav">
+                <div class="container">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'estores:home' %}">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Budget details</li>
+                    </ol>
+                </div><!-- End .container -->
+            </nav><!-- End .breadcrumb-nav -->
+
+            <div class="page-content">
+            	<div class="container">
+                 
+                    
+					<table class="table table-wishlist table-mobile">
+						<thead>
+							<tr>
+                                <th>Budget Name</th>
+								<th>Budget</th>
+								<th>Orders made</th>
+								<th>New Order</th>
+								<th>Budget Balance</th>
+								<th>Budget expiry</th>
+							</tr>
+						</thead>
+
+						<tbody>
+							<tr>
+                                <td class="price-col">{{ budget.budget_name }}</td>
+								<td class="price-col"><span>&#8358 </span>{{ budget.amount }}</td>
+								<td class="price-col" style="color: blue"><span>&#8358 </span>{{ total }}</td>
+								<td class="price-col" style="color: Green"><span>&#8358 </span>{{ new_order }}</td>
+								<td class="price-col" style="color: Red"><span>&#8358 </span>{{ budget_balance }}</td>
+								<td class="price-col">{{ budget.duration }} days</td>
+							</tr>
+							<tr>
+								<p style="color: black">The amount of your recent orders and present order has exceeded your budget price for {{ budget.duration}} day</p>
+							</tr>
+						</tbody>
+					</table><!-- End .table table-wishlist -->
+                
+            	</div><!-- End .container -->
+            </div><!-- End .page-content -->
+        </main><!-- End .main -->
+{% endblock %}
+
+

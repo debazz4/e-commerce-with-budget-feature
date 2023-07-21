@@ -27,6 +27,21 @@
 							    	<form action="{% url 'estores:signup' %}" method="POST">
                                         {% csrf_token %}
                                         {{form.errors}}
+										<div class="form-group">
+							    			<label for="first_name">First name *</label>
+                                            {{form.first_name}}
+							    			<!-- <input type="email" class="form-control" id="register-email-2" name="register-email" required> -->
+							    		</div>
+										<div class="form-group">
+							    			<label for="last_name">Last name *</label>
+                                            {{form.last_name}}
+							    			<!-- <input type="email" class="form-control" id="register-email-2" name="register-email" required> -->
+							    		</div>
+										<div class="form-group">
+							    			<label for="phone">Phone number *</label>
+                                            {{form.phone}}
+							    			<!-- <input type="email" class="form-control" id="register-email-2" name="register-email" required> -->
+							    		</div>
                                         <div class="form-group">
 							    			<label for="username">Your username *</label>
                                             {{form.username}}

@@ -1,0 +1,90 @@
+ <!--<div class="widget widget-collapsible">
+                                <h3 class="widget-title">
+                                    <a data-toggle="collapse" href="#widget-5" role="button" aria-expanded="true" aria-controls="widget-5">
+                                        Price
+                                    </a>
+                                </h3><!-- End .widget-title 
+                            
+                                <div class="collapse show" id="widget-5">
+                                    <div class="widget-body">
+                                        <div class="filter-price">
+                                            <div class="filter-price-text">
+                                                Price Range:
+                                                <span id="filter-price-range"></span>
+                                            </div><!-- End .filter-price-text -
+                                            <div id="price-slider"></div>
+                            
+                                            <div id="price-slider" class="noUi-target noUi-ltr noUi-horizontal">
+                                                <div class="noUi-base"><div class="noUi-connects">
+                                                    <div class="noUi-connect" style="transform: translate(0%, 0px) scale(1, 1);">
+                                                    </div>
+                                                </div>
+                                                <div class="noUi-origin" style="transform: translate(-100%, 0px); z-index: 5;">
+                                                        <div class="noUi-handle noUi-handle-lower" data-handle="0" tabindex="0" role="slider" aria-orientation="horizontal" aria-valuemin="0.0" aria-valuemax="800.0" aria-valuenow="0.0" aria-valuetext="$0">
+                                                            <div class="noUi-touch-area"></div><div class="noUi-tooltip">$0</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="noUi-origin" style="transform: translate(0%, 0px); z-index: 4;">
+                                                        <div class="noUi-handle noUi-handle-upper" data-handle="1" tabindex="0" role="slider" aria-orientation="horizontal" aria-valuemin="200.0" aria-valuemax="1000.0" aria-valuenow="1000.0" aria-valuetext="$1000">
+                                                            <div class="noUi-touch-area"></div><div class="noUi-tooltip">$1000</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div><!-- End #price-slider -->
+                                            <!--<div>
+                                                <label for="price-slider">Price Range:</label>
+                                                <input type="range" id="price-slider" min="0" max="1000" step="1" value="0">
+                                                <span id="rangeValue">0</span>
+                                            </div>--
+                                        </div><!-- End .filter-price -
+                                    </div><!-- End .widget-body -
+                                </div><!-- End .collapse -
+                            </div>-->
+
+});
+                             // });
+
+                             from datetime import datetime, timedelta
+                             >>> ini_time = datetime.now() //date_added
+                             >>> print(ini_time)
+                             2023-07-08 21:27:34.515040
+                             >>> set = 30 //duration
+                             >>> final_date = ini_time + timedelta(days = set)
+                             >>> print(final_date)
+                             2023-08-07 21:27:34.515040
+expiry = final_date - ini_time
+
+
+
+
+
+                {% block scripts %}
+<script>
+    const sortSelect = document.getElementById('sort-by');
+    const sortForm = document.getElementById('sort-form');
+    const results = document.getElementById('productList');
+
+    sortSelect.addEventListener('change', function () {
+            const formData = new FormData(sortForm);
+            fetch('replace_this_with_the_view_url', {
+                method: 'GET',
+                body: formData,
+                headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+            })
+            .then(response => response.json())
+            .then(data => {
+                const products = data.products;
+                result.innerHTML = '';
+                products .forEach(product => {
+                const productDiv = document.createElement('div');
+                productDiv.textContent = product.name; // replace with your data
+                results.appendChild(productDiv);
+            });        })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+</script>
+{% endblock %}

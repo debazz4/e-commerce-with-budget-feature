@@ -4,12 +4,28 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.urls import clear_script_prefix
+from django.core.validators import RegexValidator
 from django_countries.fields import CountryField
 from django_countries.widgets import CountrySelectWidget
+from .models import ProductReview
 
 class SignUpForm(UserCreationForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.fields["first_name"].widget.attrs.update({
+            'type':"text",
+            'class':"form-control",
+            'id':"first_name",
+            'name':"first_name",
+            'required':'',
+		})
+        self.fields["last_name"].widget.attrs.update({
+            'type':"text",
+            'class':"form-control",
+            'id':"last_name",
+            'name':"last_name",
+            'required':'',
+		})
         self.fields["username"].widget.attrs.update({
             'type':"text",
             'class':"form-control",
@@ -39,9 +55,18 @@ class SignUpForm(UserCreationForm):
             'required':"",					    		
         })
 
+    phone_regex = RegexValidator(regex=r'^\+?1?\d{2,13}$', message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.")
+    phone = forms.CharField(validators=[phone_regex], max_length=17, widget=forms.TextInput(attrs={
+            'type':"text", 
+            'class':"form-control", 
+            'id':"phone",
+            'name':"phone",
+            'required':"",					    		
+        }))
+
     class Meta:
         model = User
-        fields = ['username', 'email', 'password1', 'password2']
+        fields = ['first_name', 'last_name', 'phone','username', 'email', 'password1', 'password2']
 
 PAYMENT_CHOICES = (
     ('S', 'Stripe'),
@@ -55,8 +80,8 @@ SHIPPING_CHOICES = (
 
 class Shipping(forms.Form):
     shipping_option = forms.ChoiceField(widget=forms.RadioSelect, choices=SHIPPING_CHOICES)
-    cost = forms.CharField(required=False)
 
+    
 class CheckoutForm(forms.Form):
     shipping_address = forms.CharField(required=False)
     shipping_address2 = forms.CharField(required=False)
@@ -84,6 +109,8 @@ class CheckoutForm(forms.Form):
     set_default_billing = forms.BooleanField(required=False)
     use_default_billing = forms.BooleanField(required=False)
 
+    shipping_option = forms.ChoiceField(
+        widget=forms.RadioSelect, choices=SHIPPING_CHOICES)
     payment_option = forms.ChoiceField(
         widget=forms.RadioSelect, choices=PAYMENT_CHOICES)
     
@@ -97,7 +124,27 @@ class CouponForm(forms.Form):
         'aria-label': 'Recipient\'s username',
         'aria-describedby': 'basic-addon2'
     }))
+    
 
+class BudgetForm(forms.Form):
+    budget_name = forms.CharField(widget=forms.TextInput(attrs={
+        'class': 'form-control',
+        'placeholder': 'Budget Name',
+        'aria-label': 'Recipient\'s username',
+        'aria-describedby': 'basic-addon2'
+    }))
+    amount = forms.CharField(widget=forms.TextInput(attrs={
+        'class': 'form-control',
+        'placeholder': 'Amount Target',
+        'aria-label': 'Recipient\'s username',
+        'aria-describedby': 'basic-addon2'
+    }))
+    duration = forms.CharField(widget=forms.TextInput(attrs={
+        'class': 'form-control',
+        'placeholder': 'Duration',
+        'aria-label': 'Recipient\'s username',
+        'aria-describedby': 'basic-addon2'
+    }))
 
 class RefundForm(forms.Form):
     ref_code = forms.CharField()
@@ -112,4 +159,8 @@ class PaymentForm(forms.Form):
     save = forms.BooleanField(required=False)
     use_default = forms.BooleanField(required=False)
 
+class ReviewForm(forms.ModelForm):
+    class Meta:
+        model = ProductReview
+        fields=('review_text', 'review_rating')
     

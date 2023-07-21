@@ -18,27 +18,10 @@ Molla::Home
 
             <div class="page-content">
                 <div class="container">
-        			<div class="toolbox">
-        				<div class="toolbox-left">
-                            <a href="#" class="sidebar-toggler"><i class="icon-bars"></i>Filters</a>
-        				</div><!-- End .toolbox-left -->
-
-
-        				<div class="toolbox-right">
-        					<div class="toolbox-sort">
-        						<label for="sortby">Sort by:</label>
-        						<div class="select-custom">
-									<select name="sortby" id="sortby" class="form-control">
-										<option value="popularity" selected="selected">Most Popular</option>
-										<option value="rating">Most Rated</option>
-										<option value="date">Date</option>
-									</select>
-								</div>
-        					</div><!-- End .toolbox-sort -->
-        				</div><!-- End .toolbox-right -->
-        			</div><!-- End .toolbox -->
+                    {% if object_list %}
 
                     <div class="products">
+                        
                         <div class="row">
                             {% for item in object_list %}
                             <div class="col-6 col-md-4 col-lg-4 col-xl-3">
@@ -64,10 +47,10 @@ Molla::Home
                                             <a href="#">{{ item.get_category_display }}</a>
                                         </div><!-- End .product-cat -->
                                         <h3 class="product-title"><a href="{{ item.get_absolute_url }}">{{ item.title }}</a></h3><!-- End .product-title -->
-                                        <div class="product-price">$
+                                        <div class="product-price"><span>&#8358 </span>
                                             {% if item.discount_price %}
                                                 {{ item.discount_price }}
-                                                <pre> </pre><del>${{ item.price }}</del>
+                                                <pre> </pre><del> <span>&#8358 </span>{{ item.price }}</del>
                                             {% else %}
                                                 {{ item.price }}
                                             {% endif %}
@@ -88,6 +71,9 @@ Molla::Home
                             <a href="#" class="btn btn-outline-darker btn-load-more">More Products <i class="icon-refresh"></i></a>
                         </div><!-- End .load-more-container -->
                     </div><!-- End .products -->
+                    {% else %}
+                    <p>The item you are looking is not available yet or out of stock!</p>
+                    {% endif %}
 
                     <div class="sidebar-filter-overlay"></div><!-- End .sidebar-filter-overlay -->
                     <aside class="sidebar-shop sidebar-filter">

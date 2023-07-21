@@ -5,6 +5,10 @@
 Molla :: Product
 {% endblock %}
 
+{% block extra_head %}
+
+{% endblock %}
+
 
 {% block content %}
         <main class="main">
@@ -46,21 +50,6 @@ Molla :: Product
                                         </figure><!-- End .product-main-image -->
 
                                         <div id="product-zoom-gallery" class="product-image-gallery">
-                                            <a class="product-gallery-item active" href="#" data-image="{% static 'images/products/single/1.jpg' %}" data-zoom-image="{% static 'images/products/single/1-big.jpg' %}">
-                                                <img src="{% static 'images/products/single/1-small.jpg' %}" alt="product side">
-                                            </a>
-
-                                            <a class="product-gallery-item" href="#" data-image="{% static 'images/products/single/2.jpg' %}" data-zoom-image="{% static 'images/products/single/2-big.jpg' %}">
-                                                <img src="{% static 'images/products/single/2-small.jpg' %}" alt="product cross">
-                                            </a>
-
-                                            <a class="product-gallery-item" href="#" data-image="{% static 'images/products/single/3.jpg' %}" data-zoom-image="{% static 'images/products/single/3-big.jpg' %}">
-                                                <img src="{% static 'images/products/single/3-small.jpg' %}" alt="product with model">
-                                            </a>
-
-                                            <a class="product-gallery-item" href="#" data-image="{% static 'images/products/single/4.jpg' %}" data-zoom-image="{% static 'images/products/single/4-big.jpg' %}">
-                                                <img src="{% static 'images/products/single/4-small.jpg' %}" alt="product back">
-                                            </a>
                                         </div><!-- End .product-image-gallery -->
                                     </div><!-- End .row -->
                                 </div><!-- End .product-gallery -->
@@ -130,7 +119,7 @@ Molla :: Product
                                         <a href="{{ object.get_add_to_cart }}" class="btn-product btn-cart"><span>add to cart</span></a>
 
                                         <div class="details-action-wrapper">
-                                            <a href="#" class="btn-product btn-wishlist" title="Wishlist"><span>Add to Wishlist</span></a>
+                                            <a href="{% url 'estores:add-to-wishlist' item.slug %}" class="btn-product btn-wishlist" title="Wishlist"><span>Add to Wishlist</span></a>
                                             <a href="#" class="btn-product btn-compare" title="Compare"><span>Add to Compare</span></a>
                                         </div><!-- End .details-action-wrapper -->
                                     </div><!-- End .product-details-action -->
@@ -161,9 +150,9 @@ Molla :: Product
                             <li class="nav-item">
                                 <a class="nav-link active" id="product-desc-link" data-toggle="tab" href="#product-desc-tab" role="tab" aria-controls="product-desc-tab" aria-selected="true">Description</a>
                             </li>
-                            <li class="nav-item">
+                            <!--<li class="nav-item">
                                 <a class="nav-link" id="product-info-link" data-toggle="tab" href="#product-info-tab" role="tab" aria-controls="product-info-tab" aria-selected="false">Additional information</a>
-                            </li>
+                            </li>-->
                             <li class="nav-item">
                                 <a class="nav-link" id="product-shipping-link" data-toggle="tab" href="#product-shipping-tab" role="tab" aria-controls="product-shipping-tab" aria-selected="false">Shipping & Returns</a>
                             </li>
@@ -205,6 +194,120 @@ Molla :: Product
                                 </div><!-- End .product-desc-content -->
                             </div><!-- .End .tab-pane -->
                             <div class="tab-pane fade" id="product-review-tab" role="tabpanel" aria-labelledby="product-review-link">
+                                <button type="button" data-toggle="modal" href="#productReview" class="btn btn-warning btn-sm float-right">Add Review</button>
+                                
+                                <div class="modal fade" id="signin-modal" tabindex="-1" role="dialog" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-body">
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true"><i class="icon-close"></i></span>
+                                                </button>
+                            
+                                                <div class="form-box">
+                                                    <div class="form-tab">
+                                                        <ul class="nav nav-pills nav-fill" role="tablist">
+                                                            <li class="nav-item">
+                                                                <a class="nav-link active" id="signin-tab" data-toggle="tab" href="#signin" role="tab" aria-controls="signin" aria-selected="true">Sign In</a>
+                                                            </li>
+                                                            <li class="nav-item">
+                                                                <a class="nav-link" id="register-tab" data-toggle="tab" href="#register" role="tab" aria-controls="register" aria-selected="false">Register</a>
+                                                            </li>
+                                                        </ul>
+                                                        <div class="tab-content" id="tab-content-5">
+                                                            <div class="tab-pane fade show active" id="signin" role="tabpanel" aria-labelledby="signin-tab">
+                                                                <form action="#">
+                                                                    <div class="form-group">
+                                                                        <label for="singin-email">Username or email address *</label>
+                                                                        <input type="text" class="form-control" id="singin-email" name="singin-email" required>
+                                                                    </div><!-- End .form-group -->
+                            
+                                                                    <div class="form-group">
+                                                                        <label for="singin-password">Password *</label>
+                                                                        <input type="password" class="form-control" id="singin-password" name="singin-password" required>
+                                                                    </div><!-- End .form-group -->
+                            
+                                                                    <div class="form-footer">
+                                                                        <button type="submit" class="btn btn-outline-primary-2">
+                                                                            <span>LOG IN</span>
+                                                                            <i class="icon-long-arrow-right"></i>
+                                                                        </button>
+                            
+                                                                        <div class="custom-control custom-checkbox">
+                                                                            <input type="checkbox" class="custom-control-input" id="signin-remember">
+                                                                            <label class="custom-control-label" for="signin-remember">Remember Me</label>
+                                                                        </div><!-- End .custom-checkbox -->
+                            
+                                                                        <a href="#" class="forgot-link">Forgot Your Password?</a>
+                                                                    </div><!-- End .form-footer -->
+                                                                </form>
+                                                                <div class="form-choice">
+                                                                    <p class="text-center">or sign in with</p>
+                                                                    <div class="row">
+                                                                        <div class="col-sm-6">
+                                                                            <a href="#" class="btn btn-login btn-g">
+                                                                                <i class="icon-google"></i>
+                                                                                Login With Google
+                                                                            </a>
+                                                                        </div><!-- End .col-6 -->
+                                                                        <div class="col-sm-6">
+                                                                            <a href="#" class="btn btn-login btn-f">
+                                                                                <i class="icon-facebook-f"></i>
+                                                                                Login With Facebook
+                                                                            </a>
+                                                                        </div><!-- End .col-6 -->
+                                                                    </div><!-- End .row -->
+                                                                </div><!-- End .form-choice -->
+                                                            </div><!-- .End .tab-pane -->
+                                                            <div class="tab-pane fade" id="register" role="tabpanel" aria-labelledby="register-tab">
+                                                                <form action="#">
+                                                                    <div class="form-group">
+                                                                        <label for="register-email">Your email address *</label>
+                                                                        <input type="email" class="form-control" id="register-email" name="register-email" required>
+                                                                    </div><!-- End .form-group -->
+                            
+                                                                    <div class="form-group">
+                                                                        <label for="register-password">Password *</label>
+                                                                        <input type="password" class="form-control" id="register-password" name="register-password" required>
+                                                                    </div><!-- End .form-group -->
+                            
+                                                                    <div class="form-footer">
+                                                                        <button type="submit" class="btn btn-outline-primary-2">
+                                                                            <span>SIGN UP</span>
+                                                                            <i class="icon-long-arrow-right"></i>
+                                                                        </button>
+                            
+                                                                        <div class="custom-control custom-checkbox">
+                                                                            <input type="checkbox" class="custom-control-input" id="register-policy" required>
+                                                                            <label class="custom-control-label" for="register-policy">I agree to the <a href="#">privacy policy</a> *</label>
+                                                                        </div><!-- End .custom-checkbox -->
+                                                                    </div><!-- End .form-footer -->
+                                                                </form>
+                                                                <div class="form-choice">
+                                                                    <p class="text-center">or sign in with</p>
+                                                                    <div class="row">
+                                                                        <div class="col-sm-6">
+                                                                            <a href="#" class="btn btn-login btn-g">
+                                                                                <i class="icon-google"></i>
+                                                                                Login With Google
+                                                                            </a>
+                                                                        </div><!-- End .col-6 -->
+                                                                        <div class="col-sm-6">
+                                                                            <a href="#" class="btn btn-login  btn-f">
+                                                                                <i class="icon-facebook-f"></i>
+                                                                                Login With Facebook
+                                                                            </a>
+                                                                        </div><!-- End .col-6 -->
+                                                                    </div><!-- End .row -->
+                                                                </div><!-- End .form-choice -->
+                                                            </div><!-- .End .tab-pane -->
+                                                        </div><!-- End .tab-content -->
+                                                    </div><!-- End .form-tab -->
+                                                </div><!-- End .form-box -->
+                                            </div><!-- End .modal-body -->
+                                        </div><!-- End .modal-content -->
+                                    </div><!-- End .modal-dialog -->
+                                </div><!-- End .modal -->
                                 <div class="reviews">
                                     <h3>Reviews (2)</h3>
                                     <div class="review">
