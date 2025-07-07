@@ -1,7 +1,7 @@
 
 ### *** Deprecation warning ***
 
-This project was created 2023. Newer versions of the project can be found [here](https://github.com/debazz4/molla.git)
+This project was created 2024. Newer versions of the project can be found [here](https://github.com/debazz4/molla.git)
 
 ---
 
